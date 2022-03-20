@@ -8,7 +8,7 @@ public class BlocksStrategy : CheckStrategy
 {
     public override FieldPartState Check(IFieldPart[] blocks)
     {
-        Debug.Log("Chek block strategy");
+        Debug.Log("Check block strategy");
         int countX = 0;
         int countO = 0;
         int countTie = 0;

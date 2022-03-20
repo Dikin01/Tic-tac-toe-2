@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public static class DataHolder
 {
     private static FieldPartState _tempPlayer = FieldPartState.PlayerX;
 
     public static FieldPartState TempPlayer => _tempPlayer;
-    public static FieldPartState result;
+    public static FieldPartState winner;
 
     public static AbstractSceneBuilder SceneBuilder { get; set; }
     
@@ -29,10 +25,9 @@ public static class DataHolder
     
     public static void Win(FieldPartState partState)
     {
-        result = partState;
-    }
-
-    
+        _tempPlayer = FieldPartState.PlayerX;
+        winner = partState;
+    }  
 }
 
 

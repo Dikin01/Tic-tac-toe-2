@@ -1,28 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class FinishTitle : MonoBehaviour
 {
-    //переделать надо
-    [SerializeField] private GameObject _winTextPlayerX;
-    [SerializeField] private GameObject _winTextPlayerO;
-    [SerializeField] private GameObject _winTextTie;
+    [SerializeField] private Text winnerText;
 
-    //переделать надо
     private void Awake()
     {
-        switch (DataHolder.result)
+        if (winnerText == null)
+        {
+            winnerText = GetComponent<Text>();
+        }
+
+        switch (DataHolder.winner)
         {
             case FieldPartState.PlayerX:
-                Instantiate(_winTextPlayerX, gameObject.transform);
+                winnerText.text = "Крестики победили!";
+                winnerText.color = new Color(155, 255, 249, 255) / 255f;
                 break;
             case FieldPartState.PlayerO:
-                Instantiate(_winTextPlayerO, gameObject.transform);
+                winnerText.text = "Нолики победили!";
+                winnerText.color = new Color(255, 129, 220, 255) / 255f;
                 break;
             case FieldPartState.Tie:
-                Instantiate(_winTextTie, gameObject.transform);
+                winnerText.text = "Ничья!";
+                winnerText.color = new Color(134, 129, 255, 255) / 255f;
                 break;
         }
 

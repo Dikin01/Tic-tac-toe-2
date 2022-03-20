@@ -4,8 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class ScoreObserver : MonoBehaviour
 {  
-
-    public event Action<FieldPartState> OnChangeScores;
+    public event Action OnChangeScores;
     public event Action<FieldPartState> OnWin;
     private FieldPartState _stateGlobal = FieldPartState.NotFinished; //в каком процессе игра, флаг окончания, так как в конце сменим на одно из трёх других состояний
     private MainBlock _mainBlock;
@@ -16,8 +15,7 @@ public class ScoreObserver : MonoBehaviour
     public void UpdateScore()
     {
         Debug.Log("UpdateScore");
-        OnChangeScores?.Invoke(DataHolder.TempPlayer);
-
+        OnChangeScores?.Invoke();
     }
 
     private void Start()
@@ -27,9 +25,8 @@ public class ScoreObserver : MonoBehaviour
         OnWin += DataHolder.Win;
     }
 
-    private void CheckWin(FieldPartState fuck)
-    {
-        
+    private void CheckWin()
+    { 
         FieldPartState state = _mainBlock.GetBlock().CheckState();
         switch (state)
         {
@@ -54,6 +51,4 @@ public class ScoreObserver : MonoBehaviour
         }
         _stateGlobal = state;        
     }
-
-
 }

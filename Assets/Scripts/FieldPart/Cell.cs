@@ -44,9 +44,10 @@ public class Cell : MonoBehaviour, IFieldPart
         }
 
         Button.interactable = false;
-        
-        _scoreObserver?.UpdateScore();        
+
         DataHolder.ChangePlayer();
+        _scoreObserver?.UpdateScore();        
+        
     }
 
     public void Disable()
