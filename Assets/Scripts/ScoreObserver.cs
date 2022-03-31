@@ -3,40 +3,43 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ScoreObserver : MonoBehaviour
-{  
-    public event Action OnChangeScores;
-    public event Action<FieldPartState> OnWin;
-    private FieldPartState _stateGlobal = FieldPartState.NotFinished; //в каком процессе игра, флаг окончания, так как в конце сменим на одно из трёх других состояний
-    private MainBlock _mainBlock;
+{
+    public event Action OnFinishMove; //Событие конца хода
+    public event Action<FieldPartState> OnWin; //Событие конца партии
+
+    private MainBlock _mainBlock; //Всё игровое поле
 
     public int ScorePlayerX { get; private set; }
     public int ScorePlayerO { get; private set; }
 
-    public void UpdateScore()
+    public void FinishMove()
     {
-        Debug.Log("UpdateScore");
-        OnChangeScores?.Invoke();
+        Debug.Log("Cell click");
+        OnFinishMove?.Invoke();
     }
 
     private void Start()
     {
-        _mainBlock = FindObjectOfType<MainBlock>(); //или в Awake?
-        OnChangeScores += CheckWin;
+        _mainBlock = FindObjectOfType<MainBlock>();
+
+        //Правильнее было бы добавлять обработчики в методах OnEnable у объектов с этими обработчиками         
+        OnFinishMove += DataHolder.ChangePlayer;
+        OnFinishMove += CheckWin; //Баг, если поменять с ChangePlayer местами
         OnWin += DataHolder.Win;
     }
 
     private void CheckWin()
-    { 
+    {
         FieldPartState state = _mainBlock.GetBlock().CheckState();
         switch (state)
         {
             case FieldPartState.PlayerX:
-                Debug.Log("Player 1 is winner!!!");
+                Debug.Log("Player X is winner!!!");
                 OnWin?.Invoke(state);
                 SceneManager.LoadScene("FinishScene");
                 break;
             case FieldPartState.PlayerO:
-                Debug.Log("Player 2 is winner!!!");
+                Debug.Log("Player O is winner!!!");
                 OnWin?.Invoke(state);
                 SceneManager.LoadScene("FinishScene");
                 break;
@@ -45,10 +48,6 @@ public class ScoreObserver : MonoBehaviour
                 OnWin?.Invoke(state);
                 SceneManager.LoadScene("FinishScene");
                 break;
-            case FieldPartState.NotFinished:
-                Debug.Log("го дальше");
-                break;
-        }
-        _stateGlobal = state;        
+        }        
     }
 }

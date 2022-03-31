@@ -12,7 +12,7 @@ public class FinishTitle : MonoBehaviour
             winnerText = GetComponent<Text>();
         }
 
-        switch (DataHolder.winner)
+        switch (DataHolder.Winner)
         {
             case FieldPartState.PlayerX:
                 winnerText.text = "Крестики победили!";

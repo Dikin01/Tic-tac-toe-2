@@ -20,8 +20,8 @@ public class Cell : MonoBehaviour, IFieldPart
     private void Start()
     {
         _scoreObserver = FindObjectOfType<ScoreObserver>();
+        Button.onClick.AddListener(_scoreObserver.FinishMove);
     }
-
 
     public FieldPartState CheckState()
     {
@@ -43,20 +43,16 @@ public class Cell : MonoBehaviour, IFieldPart
             };
         }
 
+        Button.interactable = false;  
+    }
+
+    public void Lock()
+    {
         Button.interactable = false;
-
-        DataHolder.ChangePlayer();
-        _scoreObserver?.UpdateScore();        
-        
     }
 
-    public void Disable()
+    public void Unlock()
     {
-        throw new System.NotImplementedException();
-    }
-
-    public void EnableFields()
-    {
-        throw new System.NotImplementedException();
+        Button.interactable = true;
     }
 }

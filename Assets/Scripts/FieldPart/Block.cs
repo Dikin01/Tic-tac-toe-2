@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Block : MonoBehaviour, IFieldPart
@@ -22,14 +20,21 @@ public class Block : MonoBehaviour, IFieldPart
     {
         return _strategy.Check(_fieldParts);
     }
-
-    public void Disable()
+    
+    public void Lock()
     {
-        throw new System.NotImplementedException();
+        foreach(IFieldPart fieldPart in _fieldParts)
+        {
+            fieldPart.Lock();
+        }
     }
 
-    public void EnableFields()
+    public void Unlock()
     {
-        throw new System.NotImplementedException();
+        foreach (IFieldPart fieldPart in _fieldParts)
+        {
+            if(fieldPart.State == FieldPartState.NotFinished)
+                fieldPart.Unlock();
+        }
     }
 }
